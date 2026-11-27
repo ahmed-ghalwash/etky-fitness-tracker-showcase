@@ -37,6 +37,13 @@ request is in flight. All of it switches off under `prefers-reduced-motion: redu
 | Workout detail with exercises | ![workout-detail](screenshots/workout-detail.png) | ![workout-detail mobile](screenshots/workout-detail-mobile.png) |
 | Weekly progress | ![progress](screenshots/progress.png) | ![progress mobile](screenshots/progress-mobile.png) |
 
+## Engineering
+
+- **API test suite:** 20 end-to-end tests (96 assertions) that start the real PHP front controller and drive it over HTTP: registration and sessions, validation, ownership checks, habit streaks, the 20 habit limit, idempotent check-ins, workout library, history totals and weekly progress. They run against SQLite so no database server is needed; real MySQL is covered by the smoke test below.
+- **Docker Compose:** MySQL 8.4, the PHP API and nginx serving the React client start with one command.
+- **CI (GitHub Actions):** PHP lint and tests on PHP 8.3, the client production build, and a Docker smoke test that boots the whole stack and checks health, registration and the session endpoint against real MySQL.
+- **Endpoints added in this round:** `GET /api/habits/{id}/history` (completion rate), `GET /api/workouts/history` and `GET /api/health`.
+
 ## Source code
 
 The full source code for this project - the React client, the PHP REST API, and the
